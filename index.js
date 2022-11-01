@@ -10,6 +10,16 @@ mongoose.connect(process.env.MONGODB_URL)
     .then(() => app.listen(process.env.PORT || 3000, console.log(`Connected to database and server on PORT: ${process.env.PORT}`)))
     .catch(error => console.log(error));
 
+app.get('/', (req, res) => {
+    const data = {
+        slackUsername: "rollyJS",
+        backend: true,
+        age: 29,
+        bio: "I'm a software developer with core interest in building web applications for businesses",
+      };
+      res.json(data);
+})
+
 app.get('/user', async (req, res) => {
 
     try {
