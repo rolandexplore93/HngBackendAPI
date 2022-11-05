@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
         bio: "I'm a software developer with core interest in building web applications for businesses",
       };
       res.json(data);
-})
+});
 
 app.get('/user', async (req, res) => {
 
@@ -40,3 +40,44 @@ app.post('/user', async (req, res) => {
         res.status(400).json(error.message)
     }
 });
+
+// Javascript enum
+const OPERATION_TYPE = Object.freeze({
+    ADDITION: 'addition',
+    SUBTRACTION: 'subtraction',
+    MULTIPLICATION: 'multiplication'
+})
+
+const addInput = (x, y) => {
+    return x + y
+}
+
+const subtractInput = (x, y) => {
+    return x - y
+}
+
+const multiplyInput = (x, y) => {
+    return x * y
+}
+
+let operationType = OPERATION_TYPE.ADDITION;
+operationType = OPERATION_TYPE.SUBTRACTION;
+operationType = OPERATION_TYPE.MULTIPLICATION;
+
+app.post('/solve-math', async (req, res) => {
+    const { operation_type, x, y } =  req.body;
+
+    if (operation_type === OPERATION_TYPE.ADDITION) result = addInput(x,y)
+    else if (operation_type === OPERATION_TYPE.SUBTRACTION) result = subtractInput(x,y)
+    else if (operation_type === OPERATION_TYPE.MULTIPLICATION) result = multiplyInput(x,y) 
+    else return res.status(400).json({result: 'Incorrect operation type field. Operation Type can only be addition, subtraction or multiplication'})
+
+    const data = {
+        slackUsername: 'rollyJS',
+        operation_type: operation_type,
+        result: result
+    }
+    // console.log(data)
+    res.json(data);
+})
+
